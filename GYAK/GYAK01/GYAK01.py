@@ -10,7 +10,7 @@ def contains_odd(input_list):
         if e%2!=0:
             return True   
     return False  
-contains_odd([2,2,2])
+#contains_odd([2,2,2])
 
 # %%
 #Create a function that accepts a list of integers, and returns a list of bool.
@@ -29,7 +29,7 @@ def is_odd(input_list):
         else:
             oddnums.append(True)
     return oddnums
-is_odd([1,1,2,2])
+#is_odd([1,1,2,2])
 
 # %%
 
@@ -52,7 +52,7 @@ def element_wise_sum(input_list_1, input_list_2):
             num=num+input_list_2[i]
         out.append(num)
     return out
-element_wise_sum([2,1],[2,2,2])
+#element_wise_sum([2,1],[2,2,2])
 
 # %%
 #Create a function that accepts a dictionary and returns its items as a list of tuples
@@ -67,7 +67,7 @@ def dict_to_list(input_dict):
     for key in input_dict.keys():
         out.append((key,input_dict[key]))
     return out
-dict_to_list({1:"one",2:"two"}) 
+#dict_to_list({1:"one",2:"two"}) 
 
 # %%
 #If all the functions are created convert this notebook into a .py file and push to your repo
