@@ -9,7 +9,7 @@
 def subset(input_list,start_index,end_index):
     out=[]
     for i in range(len(input_list)):
-        if(i >= start_index and i<= end_index):
+        if(i >= (start_index-1) and i<= (end_index-1)):
             out.append(input_list[i])
     return out
 #subset([1,2,3,4,5], 1,3)
@@ -100,7 +100,7 @@ def reverse_tuples(input_list):
 #input parameters: input_list
 
 # %%
-def remove_tuplicates(input_list):
+def remove_duplicates(input_list):
     out=[]
     for e in input_list:
         if e not in out:
@@ -204,7 +204,7 @@ def mean_key_value(input_dict):
         m=0
         for e in input_dict[key]:
             m+=e
-        input_dict[key]=int(m/len(input_dict[key]))
+        input_dict[key]=(m/len(input_dict[key]))
     return input_dict
 #mean_key_value({"somekey":[1,2,3],"key": [5,5]})
 
