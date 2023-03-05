@@ -9,7 +9,7 @@
 def subset(input_list,start_index,end_index):
     out=[]
     for i in range(len(input_list)):
-        if(i >= (start_index-1) and i<= (end_index-1)):
+        if(i >= (start_index) and i<= (end_index-1)):
             out.append(input_list[i])
     return out
 #subset([1,2,3,4,5], 1,3)
@@ -24,10 +24,10 @@ def subset(input_list,start_index,end_index):
 def every_nth(input_list,step_size):
     out=[]
     for i in range(len(input_list)):
-        if (i+1)%step_size==0:
+        if (i)%step_size==0 or i is 0:
             out.append(input_list[i])
     return out
-#every_nth([0,1,2,3,4],2)
+#every_nth([1,2,3,4,5,6,7,8,9],3)
 
 # %%
 #Create a function that can decide whether a list contains unique values or not
@@ -142,18 +142,17 @@ def split_into_chunks(input_list,chunk_size):
     out=[]
     c=0
     n=[]
-    for l in input_list:
-        for e in l:         
-            c=c+1
-            n.append(e)
-            if c== chunk_size:
-                c=0
-                out.append(n)
-                n=[]
+    for l in input_list:        
+        c=c+1
+        n.append(l)
+        if c==chunk_size:
+            c=0
+            out.append(n)
+            n=[]
     if len(n)!=0:
         out.append(n)
     return out
-#split_into_chunks([[1],[2,3],[4,5,6]], 5)
+#split_into_chunks([1,2,3,4,5,6,7,8], 3)
 
 # %%
 #Create a function that can merge n dictionaries
