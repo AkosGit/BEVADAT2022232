@@ -42,7 +42,7 @@ def compare_two_array(arr,arr2):
 
 # %%
 def get_array_shape(arr):
-  return f"sor: {arr.shape[0]}, oszlop: {arr.shape[1]}, melyseg: {arr.ndim}"
+  return f"sor: {arr.shape[0]}, oszlop: {arr.shape[1]}, melyseg: {arr.ndim-1}"
 #get_array_shape(np.array([[1,2,3], [4,5,6]]))
 
 # %%
@@ -159,10 +159,9 @@ def add_border(arr):
 def list_days(start_date,end_date): # to strinf needed
     sdate = np.datetime64(start_date)
     enddate= np.datetime64(end_date)
-
     # Create a range of dates between start and end dates
     dates= np.arange(start_date, end_date, dtype='datetime64[D]')
-    return np.array(dates,dtype=str)
+    return np.array(dates,dtype=str).tolist()
 #list_days('2023-03', '2023-04')
 
 # %%
