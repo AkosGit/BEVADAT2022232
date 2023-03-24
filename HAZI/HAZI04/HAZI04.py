@@ -131,6 +131,12 @@ függvény neve: female_top_score
 '''
 
 # %%
+def female_top_score(df_data:pd.DataFrame):
+    new_df = df.copy()
+    new_df['avg']=new_df['math score']+new_df['reading score']+new_df['writing score']
+    b=new_df.sort_values("avg").tail(1)
+    return (b['math score'].values[0],b['reading score'].values[0],b['writing score'].values[0])
+#female_top_score(df)
 
 
 # %%
@@ -151,7 +157,12 @@ függvény neve: add_grade
 '''
 
 # %%
-
+def add_grade(df_data:pd.DataFrame):
+    new_df = df.copy()
+    new_df['per']=(new_df['math score']+new_df['reading score']+new_df['writing score'])/3
+    new_df['grade'] = new_df['per'].apply((lambda x: 'F' if x < 60 else ('D' if x < 70 else ('C' if x < 80 else ('B' if x < 90 else ('A' if x >= 90 else None))))))
+    return new_df
+#add_grade(df)
 
 # %%
 '''
@@ -169,7 +180,16 @@ függvény neve: math_bar_plot
 '''
 
 # %%
-#def math_bar_plot(df_data:pd.DataFrame):
+def math_bar_plot(df_data:pd.DataFrame):
+    new_df = df.copy()
+    fig, ax = plt.subplots()
+    g=new_df.groupby(["gender"])
+    ax.bar(g.groups.keys(),g.mean()['math score'].values)
+    ax.set_xlabel="Gender"
+    ax.set_ylabel="Math Score"
+    ax.set_title="Average Math Score by Gender"
+    return fig
+#math_bar_plot(df)
 
 
 # %%
@@ -188,7 +208,16 @@ függvény neve: writing_hist
 '''
 
 # %%
-
+def writing_hist(df_data:pd.DataFrame):
+    new_df = df.copy()
+    fig, ax = plt.subplots()
+    g=new_df.groupby(['writing score'])
+    ax.hist(g['gender'].count().values,g.groups.keys())
+    ax.set_xlabel="Writing Score"
+    ax.set_ylabel="Number of Students"
+    ax.set_title="Distribution of Writing Scores"
+    return fig
+#writing_hist(df)
 
 # %%
 ''' 
@@ -206,6 +235,14 @@ függvény neve: ethnicity_pie_chart
 '''
 
 # %%
-
+def ethnicity_pie_chart(df_data:pd.DataFrame):  
+    new_df = df.copy()
+    g=new_df.groupby(['race/ethnicity'])
+    fig, ax = plt.subplots()
+    ax.set_title("Distribution of Writing Scores")
+    print(g.groups.keys())
+    ax.pie(g.count()["lunch"].values, labels=g.groups.keys(),autopct='%1.1f%%')
+    return fig
+#ethnicity_pie_chart(df)
 
 

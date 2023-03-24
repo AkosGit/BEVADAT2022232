@@ -99,7 +99,7 @@ függvény neve: plot_population
 def plot_population(df: pd.DataFrame)-> plt.figure:
     new_df=df.copy()
     fig, ax = plt.subplots()
-    ax.bar(new_df["country"],new_df["population"], width=0.5)
+    ax.bar(new_df["country"],new_df["population"])
     ax.set_xlabel="Country"
     ax.set_ylabel="Population (millions)"
     ax.set_title="Population of Countries"
