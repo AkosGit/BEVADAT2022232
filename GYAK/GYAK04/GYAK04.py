@@ -58,7 +58,7 @@ függvény neve: get_top_two
 # %%
 def get_top_two(df: pd.DataFrame)-> pd.core.frame.DataFrame:
     new_df=df.copy()
-    return new_df.sort_values("area").tail(2)
+    return new_df.sort_values("area").tail(2).iloc[::-1]
 #get_top_two(df)
 
 # %%
