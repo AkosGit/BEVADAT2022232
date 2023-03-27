@@ -59,7 +59,7 @@ függvény neve: math_passed_count
 
 # %%
 def math_passed_count(df_data:pd.DataFrame):
-    new_df = df.copy()
+    new_df = df_data.copy()
     return int(new_df[new_df["math score"]>=50]["math score"].count())
 #math_passed_count(df)
 
@@ -77,7 +77,7 @@ függvény neve: did_pre_course
 
 # %%
 def did_pre_course(df_data:pd.DataFrame):
-    new_df = df.copy()
+    new_df = df_data.copy()
     return new_df[new_df["test preparation course"]=="completed"]
 #did_pre_course(df)
 
@@ -94,7 +94,7 @@ függvény neve: average_scores
 
 # %%
 def average_scores(df_data:pd.DataFrame):
-    new_df = df.copy()
+    new_df = df_data.copy()
     dd=new_df.groupby(["parental level of education"]).mean()
     return dd
 #average_scores(df)
@@ -112,7 +112,7 @@ függvény neve: add_age
 
 # %%
 def add_age(df_data:pd.DataFrame):
-    new_df = df.copy()
+    new_df = df_data.copy()
     np.random.seed(42)
     new_df["age"]=np.random.randint(18,66)
     return new_df
@@ -132,7 +132,7 @@ függvény neve: female_top_score
 
 # %%
 def female_top_score(df_data:pd.DataFrame):
-    new_df = df.copy()
+    new_df = df_data.copy()
     new_df['avg']=new_df['math score']+new_df['reading score']+new_df['writing score']
     b=new_df.sort_values("avg").tail(1)
     return (b['math score'].values[0],b['reading score'].values[0],b['writing score'].values[0])
@@ -158,7 +158,7 @@ függvény neve: add_grade
 
 # %%
 def add_grade(df_data:pd.DataFrame):
-    new_df = df.copy()
+    new_df = df_data.copy()
     new_df['per']=(new_df['math score']+new_df['reading score']+new_df['writing score'])/3
     new_df['grade'] = new_df['per'].apply((lambda x: 'F' if x < 60 else ('D' if x < 70 else ('C' if x < 80 else ('B' if x < 90 else ('A' if x >= 90 else None))))))
     return new_df
@@ -181,7 +181,7 @@ függvény neve: math_bar_plot
 
 # %%
 def math_bar_plot(df_data:pd.DataFrame):
-    new_df = df.copy()
+    new_df = df_data.copy()
     fig, ax = plt.subplots()
     g=new_df.groupby(["gender"])
     ax.bar(g.groups.keys(),g.mean()['math score'].values)
@@ -209,7 +209,7 @@ függvény neve: writing_hist
 
 # %%
 def writing_hist(df_data:pd.DataFrame):
-    new_df = df.copy()
+    new_df = df_data.copy()
     fig, ax = plt.subplots()
     g=new_df.groupby(['writing score'])
     ax.hist(g['gender'].count().values,g.groups.keys())
@@ -236,7 +236,7 @@ függvény neve: ethnicity_pie_chart
 
 # %%
 def ethnicity_pie_chart(df_data:pd.DataFrame):  
-    new_df = df.copy()
+    new_df = df_data.copy()
     g=new_df.groupby(['race/ethnicity'])
     fig, ax = plt.subplots()
     ax.set_title("Distribution of Writing Scores")
