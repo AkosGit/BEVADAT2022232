@@ -114,10 +114,9 @@ függvény neve: add_age
 def add_age(df_data:pd.DataFrame):
     new_df = df_data.copy()
     np.random.seed(42)
-    new_df["age"]=np.random.randint(18,66)
+    new_df["age"]=np.random.randint(18,67,size=len(new_df))
     return new_df
 #add_age(df)
-
 
 
 # %%
@@ -137,7 +136,6 @@ def female_top_score(df_data:pd.DataFrame):
     b=new_df.sort_values("avg").tail(1)
     return (b['math score'].values[0],b['reading score'].values[0],b['writing score'].values[0])
 #female_top_score(df)
-
 
 # %%
 '''
@@ -187,7 +185,7 @@ def math_bar_plot(df_data:pd.DataFrame):
     ax.bar(g.groups.keys(),g.mean()['math score'].values)
     ax.set_xlabel="Gender"
     ax.set_ylabel="Math Score"
-    ax.set_title="Average Math Score by Gender"
+    ax.set_title("Average Math Score by Gender")
     return fig
 #math_bar_plot(df)
 
@@ -215,7 +213,7 @@ def writing_hist(df_data:pd.DataFrame):
     ax.hist(g['gender'].count().values,g.groups.keys())
     ax.set_xlabel="Writing Score"
     ax.set_ylabel="Number of Students"
-    ax.set_title="Distribution of Writing Scores"
+    ax.set_title("Distribution of Writing Scores")
     return fig
 #writing_hist(df)
 
@@ -239,10 +237,13 @@ def ethnicity_pie_chart(df_data:pd.DataFrame):
     new_df = df_data.copy()
     g=new_df.groupby(['race/ethnicity'])
     fig, ax = plt.subplots()
-    ax.set_title("Distribution of Writing Scores")
+    ax.set_title("Proportion of Students by Race/Ethnicity")
     print(g.groups.keys())
     ax.pie(g.count()["lunch"].values, labels=g.groups.keys(),autopct='%1.1f%%')
     return fig
 #ethnicity_pie_chart(df)
+
+# %%
+
 
 
