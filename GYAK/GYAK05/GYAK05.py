@@ -18,8 +18,8 @@ class KNNClassifier:
         x,y = dataset[:,:-1],dataset[:,-1] # ???
         return x,y
 
-    def train_test_split(self,features:np.ndarray,lables:np.ndarray,test_split_ratio:float):
-        test_size = (len(features * test_split_ratio))
+    def train_test_split(self,features:np.ndarray,lables:np.ndarray):
+        test_size = (len(features * self.test_split_ratio))
         train_size = len(features)- test_size
         assert len(features) == test_size + train_size, "Size mismatch"
         self.x_train,self.y_train=features[:train_size,:],lables[:train_size]
@@ -28,9 +28,9 @@ class KNNClassifier:
     def euclidean(self,element_of_x):
         return np.sqrt(np.sum((self.x_train-element_of_x)**2,axis=0))
     
-    def predict(self):
+    def predict(self,x_test):
         labels = []
-        for x_test_element in self.x_test:
+        for x_test_element in x_test:
             #táv
             distances = self.euclidean(self.x_train,x_test_element)
             distances = np.array(sorted(zip(distances,self.y_train)))
@@ -39,7 +39,7 @@ class KNNClassifier:
             labels_pred.append(labels_pred)
         self.y_preds= np.array(labels_pred,dtype=np.int64)
 
-    def accuracy(self,):
+    def accuracy(self):
         true_positive = (self.y_test == self.y_preds).sum()
         return true_positive / len(self.y_test) *100
     def confusion_matrix(self):
