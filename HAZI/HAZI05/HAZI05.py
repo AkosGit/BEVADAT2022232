@@ -20,7 +20,7 @@ class KNNClassifier:
         x,y = dataset[:,:-1],dataset[:,-1] # ???
         return x,y
 
-    def train_test_split(self,features:np.ndarray,lables:np.ndarray):
+    def train_test_split(self,features:pd.DataFrame,lables:pd.DataFrame):
         test_size = (len(features * self.test_split_ratio))
         train_size = len(features)- test_size
         assert len(features) == test_size + train_size, "Size mismatch"
@@ -28,7 +28,7 @@ class KNNClassifier:
         self.x_test,self.y_test=features[train_size:,:],lables[train_size:]
 
     def euclidean(self,element_of_x):
-        return np.sqrt(pd.DataFrame.sum((self.x_train-element_of_x)**2,axis=0))
+        return pd.DataFrame(np.sqrt(pd.DataFrame.sum((self.x_train-element_of_x)**2,axis=0)))
     
     def predict(self,x_test):
         labels = []
@@ -46,3 +46,6 @@ class KNNClassifier:
         return true_positive / len(self.y_test) *100
     def plot_confusion_matrix(self):
          return confusion_matrix(self.y_test,self.y_preds)
+#x,y=KNNClassifier.load_csv("diabetes.csv")
+#kn=KNNClassifier(3,0.2)
+#kn.test_split_ratio(x,y)
