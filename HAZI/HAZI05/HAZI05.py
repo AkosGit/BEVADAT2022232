@@ -1,51 +1,65 @@
 import numpy as np
 import pandas as pd
-from scipy.stats import mode
 from typing import Tuple
-from sklearn.utils import shuffle 
+from scipy.stats import mode
 from sklearn.metrics import confusion_matrix
+
 class KNNClassifier:   
     @property
     def k_neighbors(self):
         return self.k
-    def __init__(self, k :int,test_split_ratio :float) -> None:
-            self.test_split_ratio=test_split_ratio
-            self.k=k
-    @staticmethod
-    def load_csv(lul):
-        pd.DataFrame.sample(random_state=42)
-        dataset = pd.read_csv(lul,delimiter=',')
-        print(dataset.shape)
-        shuffle(dataset)
-        x,y = dataset[:,:-1],dataset[:,-1] # ???
-        return x,y
 
-    def train_test_split(self,features:pd.DataFrame,lables:pd.DataFrame):
-        test_size = (len(features * self.test_split_ratio))
-        train_size = len(features)- test_size
-        assert len(features) == test_size + train_size, "Size mismatch"
-        self.x_train,self.y_train=features[:train_size,:],lables[:train_size]
-        self.x_test,self.y_test=features[train_size:,:],lables[train_size:]
-
-    def euclidean(self,element_of_x):
-        return pd.DataFrame(np.sqrt(pd.DataFrame.sum((self.x_train-element_of_x)**2,axis=0)))
+    def __init__(self, k:int, test_split_ratio:float):
+        self.k = k
+        self.test_split_ratio = test_split_ratio
     
-    def predict(self,x_test):
-        labels = []
-        for x_test_element in x_test:
-            #táv
-            distances = self.euclidean(self.x_train,x_test_element)
-            distances = pd.DataFrame(sorted(zip(distances,self.y_train)))
-            #leggyakoribb label
-            labels_pred = mode(distances[:self.k,1],keepdims = False).mode
-            labels_pred.append(labels_pred)
-        self.y_preds= pd.DataFrame(labels_pred,dtype=np.int64)
+    @staticmethod 
+    def load_csv(csv_path:str):
+        dataset = pd.read_csv(csv_path)
+        dataset = dataset.sample(frac=1, random_state=42).reset_index(drop=True)
+        x,y = dataset.iloc[:,:-1],dataset.iloc[:,-1]
+        return x,y
+    
+
+    def train_test_slpit(self, features:pd.DataFrame,
+                        labels:pd.Series):
+        test_size = int(len(features) * self.test_split_ratio)
+        train_size = len(features) - test_size
+        assert len(features) == test_size + train_size, "Size mismatch!"
+        self.x_train,self.y_train = features.iloc[:train_size,:], labels.iloc[:train_size]
+        self.x_test,self.y_test = features.iloc[train_size:,:],labels.iloc[train_size:]
+        
+    
+    def euclidean(self, element_of_x:np.ndarray):
+        return np.sqrt(np.sum((self.x_train - element_of_x)**2,axis=1))
+    
+
+    def predict(self):
+        labels_pred = []
+        for x_test_element in self.x_test.iterrows():
+            dists = self.euclidean(x_test_element)
+            dists = pd.concat([dists, self.y_train], axis=1)
+            dists = dists.sort_values(by=0).values
+            label_pred = mode(dists[:self.k,1], axis=0).mode[0]
+            labels_pred.append(label_pred)
+        self.y_preds = pd.Series(labels_pred, dtype=np.int64)
+    
 
     def accuracy(self):
         true_positive = (self.y_test == self.y_preds).sum()
-        return true_positive / len(self.y_test) *100
-    def plot_confusion_matrix(self):
-         return confusion_matrix(self.y_test,self.y_preds)
-#x,y=KNNClassifier.load_csv("diabetes.csv")
-#kn=KNNClassifier(3,0.2)
-#kn.test_split_ratio(x,y)
+        return true_positive / len(self.y_test) * 100
+
+
+    def confusion_matrix(self) -> pd.DataFrame:
+        return pd.crosstab(self.y_test, self.y_preds)
+    
+    
+    def best_k(self):
+        acs = []
+        for k in range(1,21):
+            self.k = k
+            self.predict()
+            accuracy = self.accuracy()
+            acs.append((k,accuracy))
+        best_k = max(acs, key=lambda x:x[1])
+        return (best_k[0], round(best_k[1], 2))
