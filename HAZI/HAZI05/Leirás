@@ -1,0 +1,27 @@
+__init__:
+A test_split_ratio és a k változó beállitása
+
+load_csv:
+CSV fájl betöltése ahol minden oszlop kivétel az utolsó a feuture-k amikböl a osztályozást fogjuk végezni
+Az utolsó oszlop ami a prediction eredményének kell hogy legyen
+
+train_test_split:
+Sorok szétválasztása tanuló és teszt sorokra a test_split_ratio érték alapján
+
+euclidean:
+Meghatározzuk az x_train minden pontjára element_of_x távolságát
+
+predict:
+x_test minden pontjára x_test_element kiszámítja az euklideszi távolságot az összes x_train adatponttól euclidean algoritmussal.
+Az így kapott távolságokat és a hozzá tartozó osztálycímkével együtt összerendezi egy adattáblába, távolság szerint.
+A k legkisebb távolságot és a hozzájuk tartozó osztálycímkét kiválasztja, és a leggyakoribb cimkét hozzáadja a labels_pred listához.
+
+
+accuracy:
+x_test-en végzett osztályozás eredményeinek (y_preds) pontosságát adja meg százalékban. A pontosságot az igaz pozitívok számának és a teszt adatok elosztásával számolja ki.
+
+confusion_matrix:
+Oszlopok a modell előrejelzéseit, a sorok pedig a valós értékeket jelölik. Az átlós elemei azt jelentik, hogy a modell helyesen jelezte előre az adott osztályba tartozó adatokat, míg az átlós elemek kívüli része azt jelzi, hogy az adott osztályba tartozó adatokat hibásan határozta meg a model.
+
+best_k:
+Tesztadatokon különböző k paraméterekre meghívja a predict() metódust, majd kiszámolja az accuracy-t minden esetben. Végül visszatéríti a legjobb eredményt

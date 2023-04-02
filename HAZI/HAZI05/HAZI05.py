@@ -36,7 +36,7 @@ class KNNClassifier:
 
     def predict(self, x_test: pd.core.frame.DataFrame):
         labels_pred = []
-        for index, x_test_element in x_test.iterrows():
+        for x_test_element in x_test.iterrows():
             distances = self.euclidean(x_test_element)
             distances = pd.DataFrame(sorted(zip(distances, self.y_train)))
             label_pred = distances.iloc[:self.k,1].mode()
@@ -53,7 +53,7 @@ class KNNClassifier:
         conf_matrix = confusion_matrix(self.y_test, self.y_preds)
         return conf_matrix
     
-    
+
     def best_k(self):
         accuracies = []
         for i in range(1, 21):
