@@ -97,8 +97,8 @@ class NJCleaner:
         return data2.drop(["train_id","scheduled_time","actual_time","delay_minutes"],axis=1)
     def save_first_60k(self,path):
         first60=self.data.copy().head(60000)
-        first60.to_csv(path+"/NJ.csv", index=False)
-    def prep_df(self, save_path='c:'):
+        first60.to_csv(path+"\\NJ.csv", index=False)
+    def prep_df(self, save_path):
         self.data=self.drop_columns_and_nan()
         self.data=self.order_by_scheduled_time()
         self.data=self.convert_date_to_day()
@@ -108,4 +108,4 @@ class NJCleaner:
         self.data=self.save_first_60k(save_path)
 
 #cleaner=NJCleaner("C:\\Users\\Akos\\Documents\\BEVADAT2022232\\HAZI\\HAZI06\\2018_03.csv")
-#cleaner.prep_df()
+#cleaner.prep_df("C:\\Users\\Akos\\Documents\\BEVADAT2022232\\HAZI\\HAZI06")
