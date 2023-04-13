@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.metrics import accuracy_score
 import numpy as np
 
@@ -169,21 +169,47 @@ class DecisionTreeClassifier():
 Ha ezt feladatot hiányzik, akkor nem fogadjuk el a házit!
 """
 
-col_name = ['stop_sequence','from_id,to_id','status,line','type','day','part_of_the_day','delay']
-data = pd.read_csv("C:\\Users\\Akos\\Documents\\BEVADAT2022232\\HAZI\\HAZI06\\NJ.csv",skiprows=1, header=None, names=col_name)
-#data = pd.read_csv("NJ.csv",skiprows=1, header=None, names=col_name)
-X = data.iloc[:, :-1].values
-Y = data.iloc[:, -1].values.reshape(-1,1)
-X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size=.2, random_state=41)
-
-depths=[1,2,3,4,5,6]
-scores=[]
-for depth in depths:
-    classifier = DecisionTreeClassifier(min_samples_split=depth, max_depth=depth)
+def ModelRunner(path,min_samples_split,max_depth):
+    col_name = ['stop_sequence','from_id,to_id','status,line','type','day','part_of_the_day','delay']
+    data = pd.read_csv(path,skiprows=1, header=None, names=col_name)
+    X = data.iloc[:, :-1].values
+    Y = data.iloc[:, -1].values.reshape(-1,1)
+    X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size=.2, random_state=41)
+    classifier = DecisionTreeClassifier(min_samples_split=min_samples_split, max_depth=max_depth)
     classifier.fit(X_train, Y_train)
-
     Y_pred = classifier.predict(X_test)
-    scores.append(accuracy_score(Y_test, Y_pred))
-print(scores)
+    return accuracy_score(Y_test, Y_pred)
+def GridSearch(path):
+    col_name = ['stop_sequence','from_id,to_id','status,line','type','day','part_of_the_day','delay']
+    data = pd.read_csv(path,skiprows=1, header=None, names=col_name)
+    X = data.iloc[:, :-1].values
+    Y = data.iloc[:, -1].values.reshape(-1,1)
+    X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size=.2, random_state=41)
+    
+    parameters = {'min_samples_split':[2,3,4,5,6], 'max_depth':[3,4,5,5,6]}
+    combinations=[]
+    for min in parameters["min_samples_split"]:
+        for depth in parameters["max_depth"]:
+            combinations.append((min,depth))
+    
+    results=[]
+
+    for comb in combinations:
+        print(f"min: {comb[0]} depth: {comb[1]}")           
+        classifier = DecisionTreeClassifier(min_samples_split=comb[0], max_depth=comb[1])
+        classifier.fit(X_train, Y_train)
+        rating=accuracy_score(Y_test,classifier.predict(X_test))
+        print(rating)
+        results.append(rating)
+    best_rating=max(rating)
+    best_rating_comb=results.index(best_rating)
+    print(f"Best combination is: {combinations[best_rating_comb]}, with a rating of {best_rating}")
+
+
+path="C:\\Users\\Akos\\Documents\\BEVADAT2022232\\HAZI\\HAZI06\\NJ.csv"
+#path="NJ.csv"
+print(GridSearch(path))
+
+
 
 
