@@ -86,7 +86,7 @@ class DecisionTreeClassifier():
         dataset_right = np.array([row for row in dataset if row[feature_index]>threshold])
         return dataset_left, dataset_right
     
-    def information_gain(self, parent, l_child, r_child, mode="entropy"):
+    def information_gain(self, parent, l_child, r_child, mode="gini"):
         # entropy or gini index determines how much information gain there is
         weight_l = len(l_child) / len(parent)
         weight_r = len(r_child) / len(parent)
@@ -186,7 +186,7 @@ def GridSearch(path):
     Y = data.iloc[:, -1].values.reshape(-1,1)
     X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size=.2, random_state=41)
     
-    parameters = {'min_samples_split':[2,3,4,5,6], 'max_depth':[3,4,5,5,6]}
+    parameters = {'min_samples_split':[2,3,4,5], 'max_depth':[3,4,5,5]}    
     combinations=[]
     for min in parameters["min_samples_split"]:
         for depth in parameters["max_depth"]:
@@ -201,14 +201,14 @@ def GridSearch(path):
         rating=accuracy_score(Y_test,classifier.predict(X_test))
         print(rating)
         results.append(rating)
-    best_rating=max(rating)
+    best_rating=np.max(np.array(rating))
     best_rating_comb=results.index(best_rating)
     print(f"Best combination is: {combinations[best_rating_comb]}, with a rating of {best_rating}")
-
+#Best: 6 5
 
 path="C:\\Users\\Akos\\Documents\\BEVADAT2022232\\HAZI\\HAZI06\\NJ.csv"
 #path="NJ.csv"
-print(GridSearch(path))
+GridSearch(path)
 
 
 

@@ -111,8 +111,8 @@ class NJCleaner:
         self.data=self.drop_unnecessary_columns()
         self.data=self.save_first_60k(path)
 
-cleaner=NJCleaner("C:\\Users\\Akos\\Documents\\BEVADAT2022232\\HAZI\\HAZI06\\2018_03.csv")
-cleaner.prep_df("C:\\Users\\Akos\\Documents\\BEVADAT2022232\\HAZI\\HAZI06\\NJ.csv")
+#cleaner=NJCleaner("C:\\Users\\Akos\\Documents\\BEVADAT2022232\\HAZI\\HAZI06\\2018_03.csv")
+#cleaner.prep_df("C:\\Users\\Akos\\Documents\\BEVADAT2022232\\HAZI\\HAZI06\\NJ.csv")
 """
 4. feladat: el vannak dobva?
 """
