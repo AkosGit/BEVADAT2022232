@@ -4,6 +4,8 @@ from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.metrics import accuracy_score
 import numpy as np
 
+from NJCleaner import NJCleaner
+
 class Node():
     def __init__(self, feature_index=None, threshold=None, left=None, right=None, info_gain=None, value=None):
         ''' constructor ''' 
@@ -186,7 +188,7 @@ def GridSearch(path):
     Y = data.iloc[:, -1].values.reshape(-1,1)
     X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size=.2, random_state=41)
     
-    parameters = {'min_samples_split':[2,3,4,5], 'max_depth':[3,4,5,5]}    
+    parameters = {'min_samples_split':[2], 'max_depth':[6,7,5]}    
     combinations=[]
     for min in parameters["min_samples_split"]:
         for depth in parameters["max_depth"]:
@@ -204,12 +206,48 @@ def GridSearch(path):
     best_rating=np.max(np.array(rating))
     best_rating_comb=results.index(best_rating)
     print(f"Best combination is: {combinations[best_rating_comb]}, with a rating of {best_rating}")
-#Best: 6 5
-
-path="C:\\Users\\Akos\\Documents\\BEVADAT2022232\\HAZI\\HAZI06\\NJ.csv"
-#path="NJ.csv"
-GridSearch(path)
-
-
+#Best: 2 5 0.78875
+#GridSearch(path)
+cleaner=NJCleaner("./2018_03.csv")
+cleaner.prep_df("./NJ.csv")
+print(ModelRunner("./NJ.csv",2,5))
+"""
+80% nem sikerült elérnem csak 0.78875, 2 és 5 paraméterrel. grid search-el megpróbáltam megkeresni, 
+végig probáltam mindkét paramétert 1-5 de ez volt a maximális eredmény.
+Ha a depth-et 6-ra növelem a tree összeomlik
+"""
+"""
+Grid search eredmények:
+min: 2 depth: 3
+0.7845833333333333
+min: 2 depth: 4
+0.7880833333333334
+min: 2 depth: 5
+0.78875
+min: 2 depth: 5
+0.78875
+min: 3 depth: 3
+0.7845833333333333
+min: 3 depth: 4
+0.7880833333333334
+min: 3 depth: 5
+0.78875
+min: 3 depth: 5
+0.78875
+min: 4 depth: 3
+0.7845833333333333
+min: 4 depth: 4
+0.7880833333333334
+min: 4 depth: 5
+0.78875
+min: 4 depth: 5
+0.7845833333333333
+min: 5 depth: 4
+0.7880833333333334
+min: 5 depth: 5
+0.78875
+min: 5 depth: 5
+0.78875
+"""
 
 
