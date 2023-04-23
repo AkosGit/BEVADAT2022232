@@ -25,7 +25,7 @@ class LinearRegression:
             D_c = (-2/n) * sum(residuals)  # Derivative wrt c
             self.m = self.m - self.lr * D_m  # Update m
             self.c = self.c - self.lr * D_c  # Update c
-            return self.X_train, self.y_train
+            #return self.X_train, self.y_train
     def predict(self, X):
         pred = []
         for x in X:
