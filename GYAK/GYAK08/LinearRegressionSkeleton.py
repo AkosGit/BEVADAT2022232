@@ -33,7 +33,7 @@ class LinearRegression:
             pred.append(y_pred)
         return pred
     def evaluate(self, x, y):
-        err = np.mean((self.y_pred - self.y_test) ** 2)
+        err = np.mean((self.predict(x) - y) ** 2)
         return f"Mean squared error: {err}"
 
 

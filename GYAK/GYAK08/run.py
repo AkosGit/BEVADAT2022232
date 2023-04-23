@@ -5,6 +5,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from matplotlib import pyplot as plt
 
+from GYAK.GYAK08.LinearRegressionSkeleton import LinearRegression
+
 iris = load_iris()
 df = pd.DataFrame(iris.data, columns=iris.feature_names)
 X = df['petal length (cm)'].values
