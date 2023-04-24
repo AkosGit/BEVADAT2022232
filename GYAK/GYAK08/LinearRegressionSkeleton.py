@@ -12,20 +12,19 @@ class LinearRegression:
         self.c=0
         self.m=0
 
-    def fit(self, X: np.array, y: np.array):
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        n = float(len(self.X_train)) # Number of elements in X
-        losses = []
+    def fit(self, x: np.array, y: np.array):
+        n = float(len(x)) # Number of elements in X
+        self.losses = []
         for i in range(self.epochs): 
-            y_pred = self.m*self.X_train + self.c  # The current predicted value of Y
-            residuals = self.y_train - y_pred
+            y_pred = self.m*x + self.c  # The current predicted value of Y
+            residuals = y - y_pred
             loss = np.sum(residuals ** 2)
-            losses.append(loss)
-            D_m = (-2/n) * sum(self.X_train * residuals)  # Derivative wrt m
+            self.losses.append(loss)
+            D_m = (-2/n) * sum(x * residuals)  # Derivative wrt m
             D_c = (-2/n) * sum(residuals)  # Derivative wrt c
             self.m = self.m - self.lr * D_m  # Update m
             self.c = self.c - self.lr * D_c  # Update c
-            #return self.X_train, self.y_train
+            return self.losses
     def predict(self, X):
         pred = []
         for x in X:
